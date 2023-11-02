@@ -28,12 +28,13 @@ class CardDeliveryTest {
 
     @Test
     void shouldTest() {
-        String meetingDate = getLocalDate(7);
+        int days = 8;
+        String meetingDate = getLocalDate(days);
         SelenideElement form = $(".form");
         $("[data-test-id=city] input").setValue("ек");
         $$(".menu-item__control").findBy(Condition.exactText("Екатеринбург")).click();
         $(".input__icon").click();
-        $$(".calendar__day").findBy(Condition.exactText(String.valueOf(LocalDate.now().plusDays(7).format(DateTimeFormatter.ofPattern("d"))))).click();
+        $$(".calendar__day").findBy(Condition.exactText(String.valueOf(LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("d"))))).click();
         /*$("[data-test-id='date'] .input__control").doubleClick().sendKeys(meetingDate);*/
         $("[data-test-id=name] input").setValue("Першиков Александр");
         $("[data-test-id=phone] input").setValue("+79222161614");
