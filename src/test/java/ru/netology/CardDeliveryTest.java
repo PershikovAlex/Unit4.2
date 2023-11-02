@@ -27,7 +27,7 @@ class CardDeliveryTest {
 
     @Test
     void shouldTest() {
-        int days = 8;
+        int days = 7;
         String meetingDate = getLocalDate(days);
         $("[data-test-id=city] input").setValue("ек");
         $$(".menu-item__control").findBy(Condition.exactText("Екатеринбург")).click();
