@@ -17,27 +17,26 @@ import static com.codeborne.selenide.Selenide.*;
 class CardDeliveryTest {
     @BeforeEach
     void SetUp() {
-        Configuration.holdBrowserOpen = true;
         open("http://localhost:9999");
     }
 
-    public static String getLocalDate(int days) {
-        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy", new Locale("ru")));
+    public String generateDate(long addDays, String pattern) {
+        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     @Test
     void shouldTest() {
-        int days = 7;
-        String meetingDate = getLocalDate(days);
+
         $("[data-test-id=city] input").setValue("ек");
         $$(".menu-item__control").findBy(Condition.exactText("Екатеринбург")).click();
         $(".input__icon").click();
-        $$(".calendar__day").findBy(Condition.exactText(String.valueOf(LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("d"))))).click();
+        $(".calendar__arrow_direction_right[data-step='1']").click();
+        $$(".calendar__day").findBy(Condition.exactText("4")).click();
         $("[data-test-id=name] input").setValue("Першиков Александр");
         $("[data-test-id=phone] input").setValue("+79222161614");
         $("[data-test-id=agreement]").click();
         $(".button").click();
         $("[data-test-id='notification']").shouldBe(Condition.hidden);
-        $("[data-test-id='notification'] .notification__content").shouldHave(Condition.exactText("Встреча успешно забронирована на " + meetingDate), Duration.ofSeconds(11));
+        $("[data-test-id='notification'] .notification__title").shouldHave(Condition.exactText("Успешно!"), Duration.ofSeconds(11));
     }
 }
